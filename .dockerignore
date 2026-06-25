@@ -1,0 +1,17 @@
+# Ignore build context noise to keep the image small and builds fast.
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.github/
+mlruns/
+data/imaging/
+notebooks/
+*.ipynb
+tests/
+.pytest_cache/
+.ruff_cache/
+artifacts/figures/
+artifacts/reports/
+artifacts/submissions/

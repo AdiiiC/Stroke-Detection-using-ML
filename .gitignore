@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# ML artefacts & tracking
+mlruns/
+mlflow.db
+artifacts/figures/
+artifacts/reports/
+artifacts/submissions/
+artifacts/models/imaging/
+*.joblib
+*.pt
+*.pth
+!artifacts/models/.gitkeep
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/node_modules/
+
+# Imaging data (large; downloaded via scripts/download_data.py)
+data/imaging/
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
+
+# Secrets
+.env
+kaggle.json
