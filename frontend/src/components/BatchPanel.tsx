@@ -30,16 +30,16 @@ function parseCsv(text: string): Patient[] {
 }
 
 const BAND_BG: Record<string, string> = {
-  low: "rgba(52,211,153,0.16)",
-  moderate: "rgba(251,191,36,0.16)",
-  elevated: "rgba(251,146,60,0.18)",
-  high: "rgba(248,113,113,0.18)",
+  low: "var(--low-wash)",
+  moderate: "var(--moderate-wash)",
+  elevated: "var(--elevated-wash)",
+  high: "var(--high-wash)",
 };
 const BAND_FG: Record<string, string> = {
-  low: "#34d399",
-  moderate: "#fbbf24",
-  elevated: "#fb923c",
-  high: "#f87171",
+  low: "var(--low)",
+  moderate: "var(--moderate)",
+  elevated: "var(--elevated)",
+  high: "var(--high)",
 };
 
 export default function BatchPanel() {
@@ -101,7 +101,7 @@ export default function BatchPanel() {
       {rows.length > 0 && (
         <div className="fade-in" style={{ marginTop: 16 }}>
           <p className="gauge-label">
-            {rows.length} scored · <strong style={{ color: "#f87171" }}>{flagged} flagged</strong> for
+            {rows.length} scored · <strong style={{ color: "var(--high)" }}>{flagged} flagged</strong> for
             review
           </p>
           <div style={{ maxHeight: 320, overflow: "auto", marginTop: 8 }}>

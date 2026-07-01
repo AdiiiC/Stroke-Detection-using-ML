@@ -5,10 +5,10 @@ interface Props {
 }
 
 const BAND_COLOR: Record<string, string> = {
-  low: "#34d399",
-  moderate: "#fbbf24",
-  elevated: "#fb923c",
-  high: "#f87171",
+  low: "var(--low)",
+  moderate: "var(--moderate)",
+  elevated: "var(--elevated)",
+  high: "var(--high)",
 };
 
 export default function RiskGauge({ probability, threshold, band }: Props) {
@@ -23,7 +23,7 @@ export default function RiskGauge({ probability, threshold, band }: Props) {
   const circumference = 2 * Math.PI * r;
   const arcLen = (sweep / 360) * circumference;
   const pct = Math.min(1, Math.max(0, probability));
-  const color = BAND_COLOR[band] ?? "#6d8bff";
+  const color = BAND_COLOR[band] ?? "var(--accent)";
 
   const polar = (angle: number) => {
     const a = (angle * Math.PI) / 180;
@@ -48,28 +48,15 @@ export default function RiskGauge({ probability, threshold, band }: Props) {
     <div className="gauge-wrap">
       <div className="gauge">
         <svg width={size} height={size} style={{ transform: "rotate(0deg)" }}>
-          <defs>
-            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={color} stopOpacity="0.9" />
-              <stop offset="100%" stopColor={color} stopOpacity="0.55" />
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="4" result="b" />
-              <feMerge>
-                <feMergeNode in="b" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
           {/* track */}
           <circle
             cx={cx}
             cy={cy}
             r={r}
             fill="none"
-            stroke="rgba(255,255,255,0.06)"
+            stroke="var(--inset)"
             strokeWidth={stroke}
-            strokeLinecap="round"
+            strokeLinecap="butt"
             strokeDasharray={`${arcLen} ${circumference}`}
             transform={`rotate(${startAngle} ${cx} ${cy})`}
           />
@@ -79,10 +66,9 @@ export default function RiskGauge({ probability, threshold, band }: Props) {
             cy={cy}
             r={r}
             fill="none"
-            stroke="url(#gaugeGrad)"
+            stroke={color}
             strokeWidth={stroke}
-            strokeLinecap="round"
-            filter="url(#glow)"
+            strokeLinecap="butt"
             strokeDasharray={`${arcLen * pct} ${circumference}`}
             transform={`rotate(${startAngle} ${cx} ${cy})`}
             style={{ transition: "stroke-dasharray 0.9s cubic-bezier(0.2,0.8,0.2,1)" }}
@@ -93,12 +79,12 @@ export default function RiskGauge({ probability, threshold, band }: Props) {
             y1={thOuter.y1}
             x2={thOuter.x2}
             y2={thOuter.y2}
-            stroke="#eaf0ff"
+            stroke="var(--ink)"
             strokeWidth={2}
             strokeLinecap="round"
-            opacity={0.8}
+            opacity={0.85}
           />
-          <circle cx={start.x} cy={start.y} r={2.5} fill="rgba(255,255,255,0.3)" />
+          <circle cx={start.x} cy={start.y} r={2.5} fill="var(--line-strong)" />
         </svg>
         <div className="gauge-center">
           <div className="gauge-pct" style={{ color }}>
@@ -107,7 +93,7 @@ export default function RiskGauge({ probability, threshold, band }: Props) {
           <div className="gauge-label">stroke probability</div>
         </div>
       </div>
-      <span className={`band ${band}`}>● {band.toUpperCase()} RISK</span>
+      <span className={`band ${band}`}>{band.toUpperCase()} RISK</span>
       <div className="gauge-label" style={{ marginTop: 2 }}>
         decision threshold {(threshold * 100).toFixed(1)}%
       </div>

@@ -37,6 +37,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [theme, setTheme] = useState<"light" | "dark">(
+    () => (localStorage.getItem("ng-theme") as "light" | "dark") || "light"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("ng-theme", theme);
+  }, [theme]);
+
   const [online, setOnline] = useState<boolean | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [importance, setImportance] = useState<FeatureImportance[]>([]);
@@ -79,7 +88,17 @@ export default function App() {
     <div className="app">
       <header className="header">
         <div className="brand">
-          <div className="brand-mark">🧠</div>
+          <div className="brand-mark">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <path
+                d="M1 11h4l2-5 3 10 2.5-7 1.5 2h6"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
           <div>
             <h1>NeuroGuard</h1>
             <p>Explainable, calibrated stroke-risk intelligence</p>
@@ -91,6 +110,33 @@ export default function App() {
             {online === null ? "connecting…" : online ? "model online" : "API offline"}
           </span>
           <span className="pill">Research use only</span>
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+            aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            title={theme === "light" ? "Dark mode" : "Light mode"}
+          >
+            {theme === "light" ? (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M13 9.2A5.2 5.2 0 016.8 3a5.2 5.2 0 106.2 6.2z"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="3.1" stroke="currentColor" strokeWidth="1.4" />
+                <path
+                  d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9L13 13M13 3l-1.1 1.1M4.1 11.9L3 13"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            )}
+          </button>
         </div>
       </header>
 
@@ -117,7 +163,7 @@ export default function App() {
               <div className="decision">
                 Clinical decision
                 <strong>
-                  {result.predicted_stroke ? "⚑ Flag for review" : "✓ No flag"}
+                  {result.predicted_stroke ? "Flag for review" : "No flag"}
                 </strong>
               </div>
             </div>

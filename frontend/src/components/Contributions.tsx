@@ -42,7 +42,7 @@ export default function Contributions({ items }: Props) {
                 style={{ width: `${w}%` }}
               />
             </div>
-            <span className="contrib-val" style={{ color: up ? "#fb923c" : "#34d399" }}>
+            <span className="contrib-val" style={{ color: up ? "var(--high)" : "var(--low)" }}>
               {up ? "+" : "−"}
               {Math.abs(it.contribution).toFixed(2)}
             </span>
@@ -50,7 +50,7 @@ export default function Contributions({ items }: Props) {
         );
       })}
       <p className="gauge-label" style={{ marginTop: 6 }}>
-        SHAP log-odds contributions · orange raises risk, green lowers it
+        SHAP log-odds contributions · crimson raises risk, green lowers it
       </p>
     </div>
   );
